@@ -16,4 +16,4 @@ parts:
     plugin: make
     source: https://github.com/Jaiaid/ascii_videoplayer.git
     build-packages: [g++, make, pkg-config, libncursesw5-dev, libopencv-dev]
-    stage-pacakges: [libncursesw5, libopencv]
+    #stage-pacakges: [libncursesw5, libopencv]

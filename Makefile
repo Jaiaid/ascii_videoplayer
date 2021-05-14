@@ -4,7 +4,7 @@ LIB_FLAG = -lncursesw -lpthread `pkg-config --libs opencv`
 OPENCV_INCLUDE_FLAG = `pkg-config --cflags opencv`
 NCURSES_INCLUDE_FLAG = `ncursesw5-config --cflags`
 
-.phony: all clean
+.phony: all clean install
 
 all: main.out
 
@@ -20,5 +20,7 @@ render.o: render.cpp render.h color.h
 color.o: color.cpp color.h
 	g++ color.cpp ${NCURSES_INCLUDE_FLAG} -c -o $@
 
+install: main.out
+	cp $^ ${DESTDIR}
 clean:
 	rm *.out *.o
