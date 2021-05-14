@@ -15,5 +15,6 @@ parts:
     # See 'snapcraft plugins'
     plugin: make
     source: https://github.com/Jaiaid/ascii_videoplayer.git
-    build-packages: [g++, make, pkg-config, libncursesw5-dev, libopencv-dev]
-    #stage-pacakges: [libncursesw5, libopencv]
+    source-branch: beta
+    build-packages: [g++, pkg-config, libncursesw5-dev, libopencv-core-dev, libopencv-imgproc-dev, libopencv-videoio-dev]
+    stage-packages: [libncursesw5, libopencv-core, libopencv-imgproc, libopencv-videoio]
