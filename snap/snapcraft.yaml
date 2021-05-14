@@ -11,7 +11,7 @@ grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
 parts:
-  main-part:
+  ascii-videoplayer:
     # See 'snapcraft plugins'
     plugin: make
     source: https://github.com/Jaiaid/ascii_videoplayer.git
