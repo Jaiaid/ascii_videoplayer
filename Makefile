@@ -20,7 +20,7 @@ render.o: render.cpp render.h color.h
 color.o: color.cpp color.h
 	g++ color.cpp ${NCURSES_INCLUDE_FLAG} -c -o $@
 
-install: main.out
+install: ascii_player
 	cp $^ ${DESTDIR}
 clean:
 	rm *.out *.o
