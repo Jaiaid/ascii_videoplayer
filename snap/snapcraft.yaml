@@ -1,5 +1,5 @@
 name: ascii-videoplayer # you probably want to 'snapcraft register <name>'
-version: '1b'
+version: '1r'
 summary: Low resolution(spatial and color) video player/image render for terminal
 description: 
   An overly simple videoplayer using opencv and ncurses library for terminal. Currently only pause and quitting feature is implemented.
