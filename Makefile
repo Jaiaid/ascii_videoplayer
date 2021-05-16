@@ -6,9 +6,9 @@ NCURSES_INCLUDE_FLAG = `ncursesw5-config --cflags`
 
 .phony: all clean install
 
-all: main.out
+all: ascii_player
 
-main.out: main.o render.o color.o
+ascii_player: main.o render.o color.o
 	g++ $^ ${LIB_FLAG} -o $@
 
 main.o: main.cpp render.h color.h
