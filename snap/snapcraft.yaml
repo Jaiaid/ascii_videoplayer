@@ -14,8 +14,8 @@ description:
 # by default, base is defined as core whic use xenial packages of which opencv package is different 
 # so core18 (bionic) it is
 base: core18
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
 
 parts:
   ascii-videoplayer:
