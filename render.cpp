@@ -72,6 +72,8 @@ void render::Renderer::resume()
 void render::Renderer::close()
 {
 	this->state = render::render_state::CLOSE;
+	// wait until render loop is closed
+	pthread_join(this->render_thread, NULL);
 }
 
 void* render::render_loop(void* arg)

@@ -52,6 +52,8 @@ int main(int argc, char **argv)
 			}
 		}
 	}
+	// close the renderer
+	renderer.close();
 
 	endwin();
 	if (!ok) {
