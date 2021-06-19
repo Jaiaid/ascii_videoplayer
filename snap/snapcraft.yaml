@@ -1,5 +1,5 @@
 name: ascii-videoplayer # you probably want to 'snapcraft register <name>'
-version: '1b'
+version: '1r'
 summary: Low resolution(spatial and color) video player/image render for terminal
 description: 
   An overly simple videoplayer using opencv and ncurses library for terminal. Currently only pause and quitting feature is implemented.
@@ -14,14 +14,14 @@ description:
 # by default, base is defined as core whic use xenial packages of which opencv package is different 
 # so core18 (bionic) it is
 base: core18
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
 
 parts:
   ascii-videoplayer:
     # See 'snapcraft plugins'
     plugin: make
     source: https://github.com/Jaiaid/ascii_videoplayer.git
-    source-branch: beta
+    source-branch: release
     build-packages: [g++, pkg-config, libncursesw5-dev, libopencv-dev]
-    stage-packages: [libncursesw5, libopencv-core3.2, libopencv-imgproc3.2, libopencv-videoio3.2]
+    stage-packages: [libncursesw5, libopencv-core3.2, libopencv-imgproc3.2, libopencv-videoio3.2, livavcodec-ffmpeg56]

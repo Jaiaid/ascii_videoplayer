@@ -6,9 +6,9 @@ NCURSES_INCLUDE_FLAG = `ncursesw5-config --cflags`
 
 .phony: all clean install
 
-all: ascii_player
+all: ascii-videoplayer
 
-ascii_player: main.o render.o color.o
+ascii-videoplayer: main.o render.o color.o
 	g++ $^ ${LIB_FLAG} -o $@
 
 main.o: main.cpp render.h color.h
@@ -20,7 +20,7 @@ render.o: render.cpp render.h color.h
 color.o: color.cpp color.h
 	g++ color.cpp ${NCURSES_INCLUDE_FLAG} -c -o $@
 
-install: main.out
+install: ascii-videoplayer
 	cp $^ ${DESTDIR}
 clean:
-	rm *.out *.o
+	rm ascii-videoplayer *.o
