@@ -24,4 +24,4 @@ parts:
     source: https://github.com/Jaiaid/ascii_videoplayer.git
     source-branch: release
     build-packages: [g++, pkg-config, libncursesw5-dev, libopencv-dev]
-    stage-packages: [libncursesw5, libopencv-core3.2, libopencv-imgproc3.2, libopencv-videoio3.2, livavcodec-ffmpeg57]
+    stage-packages: [libncursesw5, libopencv-core3.2, libopencv-imgproc3.2, libopencv-videoio3.2, livavcodec57]
