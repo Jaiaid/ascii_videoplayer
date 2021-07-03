@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-LIB_FLAG = -lncursesw -lpthread `pkg-config --libs opencv`
+LIB_FLAG = -lncursesw -lpthread -lopencv_core -lopencv_imgproc -lopencv_videoio
 # following https://stackoverflow.com/a/43835225/6511525
 OPENCV_INCLUDE_FLAG = `pkg-config --cflags opencv`
 NCURSES_INCLUDE_FLAG = `ncursesw5-config --cflags`
