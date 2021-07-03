@@ -67,7 +67,7 @@ parts:
       # You're in the build dir now. We're essentially
       # writing install rules in shell.
       mkdir -p $SNAPCRAFT_PRIME/lib/
-      cp $SNAPCRAFT_PART_INSTALL/usr/local/lib/*.so* $SNAPCRAFT_PRIME/lib/
+      cp -r $SNAPCRAFT_PART_INSTALL/usr/local/lib/* $SNAPCRAFT_PRIME/lib/
       # pushd $SNAPCRAFT_PRIME
       cp $SNAPCRAFT_PART_INSTALL/usr/local/lib/libavcodec.so.56 $SNAPCRAFT_PRIME/lib/libavcodec-ffmpeg.so.56
       cp $SNAPCRAFT_PART_INSTALL/usr/local/lib/libavformat.so.56 $SNAPCRAFT_PRIME/lib/libavformat-ffmpeg.so.56
