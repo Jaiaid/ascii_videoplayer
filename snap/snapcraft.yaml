@@ -28,5 +28,49 @@ parts:
     plugin: make
     source: https://github.com/Jaiaid/ascii_videoplayer.git
     source-branch: main
-    build-packages: [g++, pkg-config, libncursesw5-dev, libopencv-dev, ffmpeg]
-    stage-packages: [libncursesw5, libopencv-core3.2, libopencv-imgproc3.2, libopencv-videoio3.2, libavcodec57, libswscale4]
+    build-packages: [g++, pkg-config, libncursesw5-dev, libopencv-core-dev, libopencv-imgproc-dev, libopencv-imgcodecs-dev, libopencv-video-dev]
+    stage-packages: [libncursesw5, libopencv-core3.2, libopencv-imgproc3.2, libopencv-imgcodecs3.2, libopencv-videoio3.2]
+    after:
+      - ffmpeg-avcodec56
+
+  # needed for libavcodec56, which is not available in core18
+  # so needs building from source
+  ffmpeg-avcodec56:
+    # See 'snapcraft plugins'
+    plugin: autotools
+    source: https://github.com/FFmpeg/FFmpeg.git
+    source-branch: release/2.8
+    configflags:
+      - --disable-static
+      - --enable-shared
+      - --enable-pic
+      - --disable-programs
+      - --disable-ffplay
+      - --disable-ffprobe
+      - --disable-ffserver
+      - --disable-avdevice
+      - --disable-postproc
+      - --disable-avfilter
+      - --disable-network
+      - --disable-dct
+      - --disable-dwt
+      - --disable-lsp
+      - --disable-lzo
+      - --disable-mdct
+      - --disable-rdft
+      - --disable-fft
+      - --disable-faan
+      - --disable-pixelutils
+      - --disable-yasm
+    build-packages: [g++, make]
+    install: |
+      # You're in the build dir now. We're essentially
+      # writing install rules in shell.
+      mkdir -p $SNAPCRAFT_PRIME/lib/
+      cp $SNAPCRAFT_PART_INSTALL/usr/local/lib/*.so* $SNAPCRAFT_PRIME/lib/
+      # pushd $SNAPCRAFT_PRIME
+      cp $SNAPCRAFT_PART_INSTALL/usr/local/lib/libavcodec.so.56 $SNAPCRAFT_PRIME/lib/libavcodec-ffmpeg.so.56
+      cp $SNAPCRAFT_PART_INSTALL/usr/local/lib/libavformat.so.56 $SNAPCRAFT_PRIME/lib/libavformat-ffmpeg.so.56
+      cp $SNAPCRAFT_PART_INSTALL/usr/local/lib/libavutil.so.54 $SNAPCRAFT_PRIME/lib/libavutil-ffmpeg.so.54
+      cp $SNAPCRAFT_PART_INSTALL/usr/local/lib/libswscale.so.3 $SNAPCRAFT_PRIME/lib/libswscale-ffmpeg.so.3
+      # popd
