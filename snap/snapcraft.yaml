@@ -63,7 +63,7 @@ parts:
       - --disable-pixelutils
       - --disable-yasm
     build-packages: [g++, make]
-    install: |
+    override-build: |
       # You're in the build dir now. We're essentially
       # writing install rules in shell.
       mkdir -p $SNAPCRAFT_PRIME/lib/
