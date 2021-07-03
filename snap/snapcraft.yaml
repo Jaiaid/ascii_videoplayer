@@ -28,7 +28,7 @@ parts:
     plugin: make
     source: https://github.com/Jaiaid/ascii_videoplayer.git
     source-branch: main
-    build-packages: [g++, pkg-config, libncursesw5-dev, libopencv-core-dev, libopencv-imgproc-dev, libopencv-imgcodecs-dev, libopencv-video-dev]
+    build-packages: [g++, pkg-config, libncursesw5-dev, libopencv-dev]
     stage-packages: [libncursesw5, libopencv-core3.2, libopencv-imgproc3.2, libopencv-imgcodecs3.2, libopencv-videoio3.2, libopenblas-base]
     after:
       - ffmpeg-avcodec56
