@@ -29,7 +29,7 @@ parts:
     source: https://github.com/Jaiaid/ascii_videoplayer.git
     source-branch: main
     build-packages: [g++, pkg-config, libncursesw5-dev, libopencv-core-dev, libopencv-imgproc-dev, libopencv-imgcodecs-dev, libopencv-video-dev]
-    stage-packages: [libncursesw5, libopencv-core3.2, libopencv-imgproc3.2, libopencv-imgcodecs3.2, libopencv-videoio3.2]
+    stage-packages: [libncursesw5, libopencv-core3.2, libopencv-imgproc3.2, libopencv-imgcodecs3.2, libopencv-videoio3.2, libopenblas-base]
     after:
       - ffmpeg-avcodec56
 
@@ -64,6 +64,9 @@ parts:
       - --disable-yasm
     build-packages: [g++, make]
     override-build: |
+      # first do the actual build
+      snapcraftctl build
+      # then do other intended work
       # You're in the build dir now. We're essentially
       # writing install rules in shell.
       mkdir -p $SNAPCRAFT_PRIME/lib/
