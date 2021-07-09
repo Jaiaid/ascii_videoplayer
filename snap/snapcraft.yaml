@@ -15,12 +15,14 @@ description:
 # so core18 (bionic) it is
 base: core18
 grade: stable # must be 'stable' to release into candidate/stable channels
-confinement: classic # use 'classic' to have open access to system resources
+confinement: strict # use 'strict' to restrict access to system resources
 
 # cmd to run the application
 apps:
   ascii-videoplayer:
     command: ascii-videoplayer
+    plugs:
+      - home
 
 parts:
   ascii-videoplayer:
