@@ -15,7 +15,7 @@ description:
 # so core18 (bionic) it is
 base: core18
 grade: stable # must be 'stable' to release into candidate/stable channels
-confinement: strict # use 'strict' once you have the right plugs and slots
+confinement: classic # use 'classic' to have open access to system resources
 
 # cmd to run the application
 apps:
