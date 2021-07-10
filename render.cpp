@@ -83,11 +83,10 @@ void* render::render_loop(void* arg)
 	cv::VideoCapture* stream_ptr = ((render::render_loop_arg_struct*)arg)->stream_ptr;
 
 	int term_h, term_w;
-	int fps;
-	int per_frame_millisec;
+	double fps, per_frame_millisec;
 	cchar_t cchar_to_print; 
 	wchar_t wchar_to_print;
-	struct timespec req, rem;
+	struct timespec req;
 	cv::Mat frame, resized_frame, render_frame;
 
 	raw();
@@ -131,19 +130,20 @@ void* render::render_loop(void* arg)
 		refresh();
 		
 		render_finish = std::chrono::steady_clock::now();
-		int millisec_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(render_finish - render_start).count();
+		double millisec_elapsed = std::chrono::duration<double, std::milli>(render_finish - render_start).count();
 		
 		if (millisec_elapsed < per_frame_millisec) {
+			// assuming fps will not be less or equal to 1
 			req.tv_sec = 0;
-			req.tv_nsec = (30 - millisec_elapsed) * 1e6;
-			nanosleep(&req, &rem);
+			req.tv_nsec = (per_frame_millisec - millisec_elapsed) * 1e6;
+			nanosleep(&req, NULL);
 		}
 
 		while (*state_flag_ptr == render::render_state::PAUSE)
 		{
 			req.tv_sec = 0;
 			req.tv_nsec = 1e8;
-			nanosleep(&req, &rem);
+			nanosleep(&req, NULL);
 		}
 
 		render_start = std::chrono::steady_clock::now();
