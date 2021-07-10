@@ -21,6 +21,8 @@ confinement: strict # use 'strict' to restrict access to system resources
 apps:
   ascii-videoplayer:
     command: ascii-videoplayer
+    environment:
+      LC_ALL: C.UTF-8
     plugs:
       - home
 
