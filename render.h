@@ -7,6 +7,7 @@
 namespace render
 {	
 	const int DEFAULT_FPS = 30;
+	const int SEEK_STEP_SEC = 2; 
 	
 	enum render_state
 	{
@@ -28,9 +29,12 @@ namespace render
 	{
 		render_state* state_ptr;
 		render_type* type_ptr;
+		int* forward_request_count_ptr;
+		int* backward_request_count_ptr;
 		cv::VideoCapture* stream_ptr;
 	};
 
+	void frame_skip();
 	void* render_loop(void* arg);
 		
 	class Renderer
@@ -38,7 +42,12 @@ namespace render
 		std::string src_name;
 		render_state state;
 		render_type type;
-		
+
+		// use to indicate to render thread that frame skip needed
+		// can be set by forward and backward method
+		int forward_request_count;
+		int backward_request_count;
+
 		cv::VideoCapture stream;
 		
 		render_loop_arg_struct render_infos;
@@ -55,6 +64,8 @@ namespace render
 		void toggle();
 		void pause();
 		void resume();
+		void forward_request();
+		void backward_request();
 		void close();
 	};
 }

@@ -10,6 +10,8 @@
 
 render::Renderer::Renderer()
 {
+	this->forward_request_count = 0;
+	this->backward_request_count = 0;
 	this->state = render::render_state::INIT;
 }
 
@@ -43,6 +45,8 @@ void render::Renderer::start()
 {
 	this->render_infos.state_ptr = &(this->state);
 	this->render_infos.type_ptr = &(this->type);
+	this->render_infos.forward_request_count_ptr = &(this->forward_request_count);
+	this->render_infos.backward_request_count_ptr = &(this->backward_request_count);
 	this->render_infos.stream_ptr = &(this->stream);
 	
 	pthread_create(&render_thread, NULL, render_loop, &(this->render_infos));
@@ -69,6 +73,16 @@ void render::Renderer::resume()
 	this->state = render::render_state::START;
 }
 
+void render::Renderer::forward_request()
+{
+	this->forward_request_count++;
+}
+
+void render::Renderer::backward_request()
+{
+	this->backward_request_count++;
+}
+
 void render::Renderer::close()
 {
 	this->state = render::render_state::CLOSE;
@@ -80,8 +94,11 @@ void* render::render_loop(void* arg)
 {
 	render::render_state* state_flag_ptr = ((render::render_loop_arg_struct*)arg)->state_ptr;
 	render::render_type* type_flag_ptr = ((render::render_loop_arg_struct*)arg)->type_ptr;
+	int* forward_request_count_ptr = ((render::render_loop_arg_struct*)arg)->forward_request_count_ptr;
+	int* backward_request_count_ptr = ((render::render_loop_arg_struct*)arg)->backward_request_count_ptr;
 	cv::VideoCapture* stream_ptr = ((render::render_loop_arg_struct*)arg)->stream_ptr;
 
+	int current_frame_index = 0;
 	int term_h, term_w;
 	double fps, per_frame_millisec;
 	cchar_t cchar_to_print; 
@@ -104,6 +121,7 @@ void* render::render_loop(void* arg)
 	std::chrono::steady_clock::time_point render_finish;
 	
 	bool ok = stream_ptr->read(frame);
+	current_frame_index = 1;
 	while(*state_flag_ptr != render::render_state::CLOSE && ok)
 	{
 		cv::resize(frame, resized_frame, cv::Size(term_w, term_h), 0, 0, cv::INTER_AREA);
@@ -139,6 +157,24 @@ void* render::render_loop(void* arg)
 			nanosleep(&req, NULL);
 		}
 
+		// each forward or backward will cause render::SEEK_STEP_SEC second skip, if video content available
+		if ((*forward_request_count_ptr) > 0) {
+			int needed_frame_skip = fps * render::SEEK_STEP_SEC * (*forward_request_count_ptr);
+			int target_frame_index = current_frame_index + needed_frame_skip;
+
+			stream_ptr->set(cv::CAP_PROP_POS_FRAMES, target_frame_index);
+			(*forward_request_count_ptr) = 0;
+			current_frame_index = target_frame_index;
+		}
+		else if ((*backward_request_count_ptr) > 0) {
+			int needed_frame_skip = fps * render::SEEK_STEP_SEC * (*backward_request_count_ptr);
+			int target_frame_index = std::max(current_frame_index - needed_frame_skip, 0);
+			
+			stream_ptr->set(cv::CAP_PROP_POS_FRAMES, target_frame_index);
+			(*backward_request_count_ptr) = 0;
+			current_frame_index = target_frame_index;
+		}
+
 		while (*state_flag_ptr == render::render_state::PAUSE)
 		{
 			req.tv_sec = 0;
@@ -148,6 +184,7 @@ void* render::render_loop(void* arg)
 
 		render_start = std::chrono::steady_clock::now();
 		ok = stream_ptr->read(frame);
+		current_frame_index++;
 	}
 	
 	stream_ptr->release();
