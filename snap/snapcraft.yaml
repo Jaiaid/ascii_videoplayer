@@ -8,7 +8,8 @@ description:
 
   To run give command ascii_player <image/video name>
 
-  Press 'q' to quit and 'p' to pause.
+  Press 'q' to quit, 'p' to pause
+  In video stream press 'w' to skip forward 2s, 's' for backward 2s skip.
   
 
 # https://snapcraft.io/docs/base-snaps
