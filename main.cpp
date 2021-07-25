@@ -7,6 +7,8 @@
 
 #define EXIT 'q'
 #define PAUSE 'p'
+#define FORWARD 'w'
+#define BACKWARD 's'
 
 bool quit = false;
 
@@ -49,6 +51,12 @@ int main(int argc, char **argv)
 					break;
 				case PAUSE:
 					renderer.toggle();
+					break;
+				case FORWARD:
+					renderer.forward_request();
+					break;
+				case BACKWARD:
+					renderer.backward_request();
 			}
 		}
 	}
