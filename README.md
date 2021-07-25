@@ -15,5 +15,9 @@ make
 
 * 'q' to quit
 * 'p' to pause
+* 'w' to forward 2s
+* 's' to backward 2s
+
+forward, backward skip causes exit in case of image render
 
 
