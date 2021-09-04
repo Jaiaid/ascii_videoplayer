@@ -20,4 +20,5 @@ make
 
 forward, backward skip causes exit in case of image render
 
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/ascii-videoplayer)
 
